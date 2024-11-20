@@ -1,9 +1,7 @@
 package com.mexiti.foodcal.ui.screens
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,20 +18,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.mexiti.foodcal.R
-import com.mexiti.foodcal.model.DayFood
-import com.mexiti.foodcal.model.DayRepository
-import com.mexiti.foodcal.ui.theme.FoodAppTheme
-
+import com.mexiti.foodcal.model.DailyFood
 
 @Composable
 fun CardDayInfo(
-    dayFood: DayFood,
+    dayFood: DailyFood,
     modifier: Modifier = Modifier
 ){
     Card(
@@ -61,7 +57,7 @@ fun CardDayInfo(
 
 @Composable
 fun ShowImage(
-    @DrawableRes imageRes:Int,
+    imageRes: String,
     modifier: Modifier = Modifier
 ){
     Box(modifier =
@@ -72,19 +68,29 @@ fun ShowImage(
         .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground)),
         contentAlignment = Alignment.Center
     ) {
+        AsyncImage(model =ImageRequest.
+        Builder(
+            context = LocalContext.current).data(imageRes)
+            .crossfade(true)
+            .build()
+            , contentDescription = "Receta",
+            contentScale = ContentScale.Crop,
+            modifier = modifier.fillMaxWidth()
+        )
+        /*
         Image(
             painter = painterResource(id = imageRes),
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             modifier = modifier.fillMaxWidth()
-        )
+        )*/
     }
 }
 
 @Composable
 fun DayTitle(
-    @StringRes day: Int,
-    @StringRes title: Int,
+     day: Int,
+     title: String,
     modifier: Modifier = Modifier
 ){
     Column(
@@ -93,12 +99,12 @@ fun DayTitle(
             .padding(dimensionResource(id = R.dimen.padding_component))
     ) {
         Text(
-            text = stringResource(id = day),
+            text = day.toString(),
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = stringResource(id = title),
+            text = title   ,
             style = MaterialTheme.typography.headlineSmall,
         )
     }
@@ -106,11 +112,11 @@ fun DayTitle(
 
 @Composable
 fun BodyContent(
-    @StringRes body: Int,
+     body: String,
     modifier: Modifier = Modifier
 ){
     Text(
-        text = stringResource(id = body),
+        text = body,
         style = MaterialTheme.typography.bodyLarge,
         modifier = modifier
             .width(dimensionResource(id = R.dimen.width_size))
@@ -122,7 +128,7 @@ fun BodyContent(
 }
 
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun CardDayInfoPreview(){
@@ -159,3 +165,4 @@ fun BodyContentPreview(){
 
 }
 
+*/
